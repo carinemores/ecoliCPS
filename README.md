@@ -11,7 +11,7 @@ This project requires the installation of the following bioinformatics tools: Gu
 ### Guppy v6.4.6
 To install Guppy, follow the instructions provided on the [Oxford Nanopore Technologies website](https://nanoporetech.com). 
 
-Dependencies: Compatible operating system, specific versions of Python may be needed. Requires hardware capable of supporting high-throughput sequencing data processing.
+**Dependencies**: Compatible operating system, specific versions of Python may be needed. Requires hardware capable of supporting high-throughput sequencing data processing.
 
 ### bbmap v38.87
 bbmap can also be installed via conda:
