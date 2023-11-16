@@ -6,7 +6,7 @@
 
 
 ## 1. Installation Instructions and Dependencies
-This project requires the installation of the following bioinformatics tools: Guppy v6.4.6, Flye v2.9, Pilon v1.23, and bbmap.
+This project requires the installation of the following bioinformatics tools: Guppy v6.4.6, Flye v2.9, Pilon v1.23, and bbmap v38.87.
 
 ### Guppy v6.4.6
 To install Guppy, follow the instructions provided on the [Oxford Nanopore Technologies website](https://nanoporetech.com). 
@@ -26,7 +26,7 @@ conda install -c bioconda pilon
 ```
 Dependencies: Java 8 or later. Requires significant memory for processing large genomes.
 
-### bbmap-38.87
+### bbmap v38.87
 bbmap can also be installed via conda:
 ```
 conda install -c bioconda bbmap
