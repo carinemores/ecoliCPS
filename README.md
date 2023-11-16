@@ -18,24 +18,24 @@ bbmap can also be installed via conda:
 ```
 conda install -c bioconda bbmap
 ```
-Dependencies: Java 7 or later. Sensitive to Java version and memory allocation.
+**Dependencies**: Java 7 or later. Sensitive to Java version and memory allocation.
 
 ### Flye v2.9
 Flye can be installed using conda:
 ```bash
 conda install -c bioconda flye
 ```
-Dependencies: Python (version 2.7 or 3.5 and later) and a standard C++ compiler. Performance varies based on Python version and C++ compiler.
+**Dependencies**: Python (version 2.7 or 3.5 and later) and a standard C++ compiler. Performance varies based on Python version and C++ compiler.
 
 ### Pilon v1.23
 Pilon can be installed using conda as follows:
 ```
 conda install -c bioconda pilon
 ```
-Dependencies: Java 8 or later. Requires significant memory for processing large genomes.
+**Dependencies**: Java 8 or later. Requires significant memory for processing large genomes.
 
 
-* Note: Ensure all necessary dependencies are installed before using these tools for optimal operation and accurate results.
+* **Note: Ensure all necessary dependencies are installed before using these tools for optimal operation and accurate results.**
 
 
 
