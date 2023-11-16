@@ -34,7 +34,7 @@ conda install -c bioconda pilon
 Dependencies: Java 8 or later. Requires significant memory for processing large genomes.
 
 
-*Note: Ensure all necessary dependencies are installed before using these tools for optimal operation and accurate results.
+* Note: Ensure all necessary dependencies are installed before using these tools for optimal operation and accurate results.
 
 
 
