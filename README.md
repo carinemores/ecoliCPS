@@ -70,8 +70,6 @@ for r1 in ${raw_data_dir}/*R1*fastq.gz; do
     #Quality trimming and filtering
     bbduk.sh in1=${r1%.fastq.gz}_phix_removed.1.fq.gz in2=${r2%.fastq.gz}_phix_removed.2.fq.gz out1=${r1%.fastq.gz}_final.1.fq.gz out2=${r2%.fastq.gz}_final.2.fq.gz trimq=14 qtrim=r minlength=45 maq=20 maxns=0 stats=${r1%.fastq.gz}_final.stats
 
-    #Move final QC'd reads to the processed data directory
-    mv ${r1%.fastq.gz}_final*.fq.gz $processed_data_dir/
 done
 
 ```
