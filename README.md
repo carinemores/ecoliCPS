@@ -78,7 +78,7 @@ done
 
 
 ### PacBio reads: 
-In this project, the PacBio HiFi reads quality control was performed during the run using the Control SW Version 11.0.0.144466. No further QC was performed.
+In this project, the PacBio HiFi reads quality control was performed during the run using the Control SW Version 11.0.0.144466, rendering Q20+ reads. No further QC was performed.
 
 
 ## 3. Assembling the genomes
