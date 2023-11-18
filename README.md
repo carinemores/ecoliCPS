@@ -72,6 +72,7 @@ for r1 in ${raw_data_dir}/*R1*fastq.gz; do
 
 done
 ```
+
 ### ONT reads: 
 
 
