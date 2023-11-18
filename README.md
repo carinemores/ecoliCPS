@@ -48,16 +48,18 @@ In this project, Illumina reads were subjected to quality control and trimming u
 * **PhiX Contamination Removal**: Elimination of PhiX control DNA using a kmer length of 31.
 * **Quality Trimming and Filtering**: Trimming of low-quality bases and filtering out reads below a 45-base length threshold, with a minimum average quality of 20 and no ambiguous bases ('N's).
 
+Define directories for raw and processed data: 
 ```
-#Define directories for raw and processed data
 raw_data_dir="/path/to/raw/Illumina/data"
 processed_data_dir="/path/to/processed/Illumina/data"
-
-#Define reference files for adapters and PhiX (comes with BBmap)
+```
+Define reference files for adapters and PhiX (comes with BBmap):
+```
 adapter_ref="/path/to/adapter/reference.fa"
 phix_ref="/path/to/phix/reference.fa"
-
-#Loop through each pair of Illumina read files
+```
+Loop through each pair of Illumina read files:
+```
 for r1 in ${raw_data_dir}/*R1*fastq.gz; do
     r2=${r1/R1/R2}
 
