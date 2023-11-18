@@ -44,9 +44,9 @@ conda install -c bioconda pilon
 ### Illumina reads: 
 In this project, Illumina reads were subjected to quality control and trimming using BBMap's BBDuk tool, streamlined into three key steps:
 
-Adapter Trimming: Removal of adapter sequences with specific parameters, including a kmer length of 23 and a minimum kmer length of 11.
-PhiX Contamination Removal: Elimination of PhiX control DNA using a kmer length of 31.
-Quality Trimming and Filtering: Trimming of low-quality bases and filtering out reads below a 45-base length threshold, with a minimum average quality of 20 and no ambiguous bases ('N's).
+* **Adapter Trimming**: Removal of adapter sequences with specific parameters, including a kmer length of 23 and a minimum kmer length of 11.
+* **PhiX Contamination Removal**: Elimination of PhiX control DNA using a kmer length of 31.
+* **Quality Trimming and Filtering**: Trimming of low-quality bases and filtering out reads below a 45-base length threshold, with a minimum average quality of 20 and no ambiguous bases ('N's).
 
 ```
 #Define directories for raw and processed data
