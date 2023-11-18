@@ -40,11 +40,40 @@ conda install -c bioconda pilon
 
 
 ## 2. Processing the input data
-QC?
 
+### Illumina reads: 
+In this project, Illumina reads were subjected to quality control and trimming using BBMap's BBDuk tool, streamlined into three key steps:
+
+Adapter Trimming: Removal of adapter sequences with specific parameters, including a kmer length of 23 and a minimum kmer length of 11.
+PhiX Contamination Removal: Elimination of PhiX control DNA using a kmer length of 31.
+Quality Trimming and Filtering: Trimming of low-quality bases and filtering out reads below a 45-base length threshold, with a minimum average quality of 20 and no ambiguous bases ('N's).
 ```
 script
 ```
+#Define directories for raw and processed data
+raw_data_dir="/path/to/raw/Illumina/data"
+processed_data_dir="/path/to/processed/Illumina/data"
+
+#Define reference files for adapters and PhiX (comes with BBmap)
+adapter_ref="/path/to/adapter/reference.fa"
+phix_ref="/path/to/phix/reference.fa"
+
+#Loop through each pair of Illumina read files
+for r1 in ${raw_data_dir}/*R1*fastq.gz; do
+    r2=${r1/R1/R2}
+
+    #Adapter trimming
+    bbduk.sh in1=$r1 in2=$r2 out1=${r1%.fastq.gz}_trimmed.1.fq.gz out2=${r2%.fastq.gz}_trimmed.2.fq.gz ref=$adapter_ref ktrim=r k=23 mink=11 hdist=1 stats=${r1%.fastq.gz}_adapter.stats
+
+    #PhiX removal
+    bbduk.sh in1=${r1%.fastq.gz}_trimmed.1.fq.gz in2=${r2%.fastq.gz}_trimmed.2.fq.gz out1=${r1%.fastq.gz}_phix_removed.1.fq.gz out2=${r2%.fastq.gz}_phix_removed.2.fq.gz ref=$phix_ref k=31 hdist=1 stats=${r1%.fastq.gz}_phix.stats
+
+    #Quality trimming and filtering
+    bbduk.sh in1=${r1%.fastq.gz}_phix_removed.1.fq.gz in2=${r2%.fastq.gz}_phix_removed.2.fq.gz out1=${r1%.fastq.gz}_final.1.fq.gz out2=${r2%.fastq.gz}_final.2.fq.gz trimq=14 qtrim=r minlength=45 maq=20 maxns=0 stats=${r1%.fastq.gz}_final.stats
+
+    #Move final QC'd reads to the processed data directory
+    mv ${r1%.fastq.gz}_final*.fq.gz $processed_data_dir/
+done
 
 ```
 Options:
