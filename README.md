@@ -47,8 +47,7 @@ In this project, Illumina reads were subjected to quality control and trimming u
 Adapter Trimming: Removal of adapter sequences with specific parameters, including a kmer length of 23 and a minimum kmer length of 11.
 PhiX Contamination Removal: Elimination of PhiX control DNA using a kmer length of 31.
 Quality Trimming and Filtering: Trimming of low-quality bases and filtering out reads below a 45-base length threshold, with a minimum average quality of 20 and no ambiguous bases ('N's).
-```
-script
+
 ```
 #Define directories for raw and processed data
 raw_data_dir="/path/to/raw/Illumina/data"
@@ -76,9 +75,7 @@ for r1 in ${raw_data_dir}/*R1*fastq.gz; do
 done
 
 ```
-Options:
 
-```
 
 ## 3. Assembling the genomes
 
