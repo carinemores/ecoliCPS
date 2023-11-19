@@ -9,10 +9,11 @@
 
 
 ## 1. Installation Instructions and Dependencies
-This project requires the installation of the following bioinformatics tools: Guppy v6.4.6, bbmap v38.87, Flye v2.9 and Pilon v1.23.
+The followig bioinformatic tools were required to generated the presented genomes: Guppy v6.4.6, bbmap v38.87, Flye v2.9, Pilon v1.23, BWA v0.7.17 and SAMtools v1.9.
+Below you can find instructions on how to download each of them and its dependencies.
 
 ### bbmap v38.87
-bbmap can also be installed via conda:
+bbmap can be installed via conda:
 ```
 conda install -c bioconda bbmap
 ```
@@ -31,7 +32,7 @@ conda install -c bioconda flye
 **Dependencies**: Python (version 2.7 or 3.5 and later) and a standard C++ compiler. Performance varies based on Python version and C++ compiler.
 
 ### Pilon v1.23
-Pilon can be installed using conda as follows:
+Pilon can also be installed using conda:
 ```
 conda install -c bioconda pilon
 ```
@@ -89,14 +90,14 @@ make install
 * Replace /where/to/install with your desired installation path.
 
 
-* **Note**: Ensure all necessary dependencies are installed before using these tools for optimal operation and accurate results.
+* **NOTE**: Ensure all necessary dependencies are installed before using these tools for optimal operation and accurate results.
 
 
 
 ## 2. Processing the input data
 
 ### Illumina reads: 
-In this project, Illumina reads were subjected to quality control and trimming using BBMap's BBDuk tool, streamlined into three key steps:
+Illumina reads were subjected to quality control and trimming using BBMap's BBDuk tool, streamlined into three key steps:
 
 * **Adapter Trimming**: Removal of adapter sequences with specific parameters, including a kmer length of 23 and a minimum kmer length of 11.
 * **PhiX Contamination Removal**: Elimination of PhiX control DNA using a kmer length of 31.
@@ -134,11 +135,12 @@ Guppy
 
 
 ### PacBio reads: 
-In this project, the PacBio HiFi reads quality control was performed during the run using the Control SW Version 11.0.0.144466, rendering Q20+ reads. No further QC was performed.
+PacBio HiFi reads quality control was performed during the run using the Control SW Version 11.0.0.144466, rendering Q20+ reads. No further QC was performed.
 
 
 ## 3. Assembling the genomes
-Flye is a *de novo* assembler for long and noisy reads, such as those produced by PacBio and Oxford Nanopore Technologies. It's designed to assemble genomes from scratch with minimal input data. Flye v2.9 offers specific modes for handling different types of long-read data:
+Flye is a *de novo* assembler for long and noisy reads, such as those produced by PacBio and Oxford Nanopore Technologies. 
+Flye v2.9 offers specific modes for handling different types of long-read data:
 
 * PacBio HiFi Reads: The `--pacbio-hifi` option is used for high-quality, low-error-rate PacBio reads. This mode is optimized for accuracy, taking advantage of the high fidelity of these reads.
 
@@ -171,14 +173,14 @@ flye --nano-raw $ONT_INPUT -o $OUTPUT_DIR -t [number_of_threads]
 * **Note**: In both scripts, replace the file paths and the number of threads `-t` ([number_of_threads]) according to your computing environment and dataset. The `-o` flag specifies the output directory for the assembled genome.
 
 ## 4. Polishing the assemblies
-In this project, iterative polishing of genomic assemblies using Pilon with Illumina QC'd reads was perfomed for five cycles. In each cycle, it:
+To polish the presented genomes, iterative polishing was perfomed for five cycles. In each cycle, it:
 
 * Indexes the assembly with BWA.
-* Aligns the quality-controlled Illumina reads to the assembly using BWA MEM, converting the output to BAM format with Samtools.
+* Aligns the quality controlled Illumina reads to the assembly using BWA MEM, converting the output to BAM format with Samtools.
 * Sorts and indexes the BAM file using Samtools.
 * Runs Pilon for error correction, specifying input files and output directories. Pilon uses the sorted BAM file and the current assembly to produce a polished version.
 
-Polishing Flye generated assemblies using Pilon and Illumina quality controlled reads:
+Polishing Flye generated assemblies using Pilon:
 ```
 for CYCLE in {0..4}; do
 
@@ -202,7 +204,7 @@ pilon --genome $ASSEMBLY_PATH --frags $OUTPUT_DIR/alignment_$CYCLE.sorted.bam --
 
 done
 ```
-* **Note**: Replace the placeholders (<path_to_assembly_directory>, <path_to_output_directory>, <path_to_illumina_qc_reads_directory>, <number_of_threads>) with the appropriate paths and values for your specific setup.
+* **Note**: Replace the placeholders (`<path_to_assembly_directory>`, `<path_to_output_directory>`, `<path_to_illumina_qc_reads_directory>`, `<number_of_threads>`) with the appropriate paths and values for your specific setup.
 
 ## References
 
