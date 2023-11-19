@@ -92,30 +92,28 @@ In this project, iterative polishing of genomic assemblies using Pilon with Illu
 * Sorts and indexes the BAM file using Samtools.
 * Runs Pilon for error correction, specifying input files and output directories. Pilon uses the sorted BAM file and the current assembly to produce a polished version.
 
+```
+for CYCLE in {0..4}; do
 
-Define the path for assembly file and output directory:
-```
-ASSEMBLY=/path/to/assembly/contigs.fasta
-QC_READS_1=/path/to/qc_reads/read1.fq.gz
-QC_READS_2=/path/to/qc_reads/read2.fq.gz
-OUTPUT_DIR=/path/to/output/directory
-```
-Index the assembly with BWA:
-```
-bwa index $ASSEMBLY
-```
-Align QC'd reads to the assembly and convert to BAM:
-```
-bwa mem -t <number_of_threads> $ASSEMBLY $QC_READS_1 $QC_READS_2 | samtools view -bS - > $OUTPUT_DIR/alignment.bam
-```
-Sort and index the BAM file using Samtools:
-```
-samtools sort $OUTPUT_DIR/alignment.bam > $OUTPUT_DIR/alignment.sorted.bam
-samtools index $OUTPUT_DIR/alignment.sorted.bam
-```
-Polish the assembly using Pilon:
-```
-pilon -Xmx16G --genome $ASSEMBLY --frags $OUTPUT_DIR/alignment.sorted.bam --output contigs_polished --outdir $OUTPUT_DIR --changes
+#Define the path for assembly file and output directory:
+ASSEMBLY_PATH="<path_to_assembly_directory>/contigs_$CYCLE.fasta"
+OUTPUT_DIR="<path_to_output_directory>"
+ILLUMINA_READS_DIR="<path_to_illumina_qc_reads_directory>"
+
+#Index the assembly with BWA:
+bwa index $ASSEMBLY_PATH
+
+#Align QC'd reads to the assembly and convert to BAM:
+bwa mem -t <number_of_threads> $ASSEMBLY_PATH $ILLUMINA_READS_DIR/read1.fq.gz $ILLUMINA_READS_DIR/read2.fq.gz | samtools view -bS - > $OUTPUT_DIR/alignment_$CYCLE.bam
+
+#Sort and index the BAM file using Samtools:
+samtools sort $OUTPUT_DIR/alignment_$CYCLE.bam > $OUTPUT_DIR/alignment_$CYCLE.sorted.bam
+samtools index $OUTPUT_DIR/alignment_$CYCLE.sorted.bam
+
+#Polish the assembly using Pilon:
+pilon --genome $ASSEMBLY_PATH --frags $OUTPUT_DIR/alignment_$CYCLE.sorted.bam --output contigs_$(($CYCLE + 1)) --outdir $OUTPUT_DIR --changes
+
+done
 ```
 
 
