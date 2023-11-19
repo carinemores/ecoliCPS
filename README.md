@@ -37,8 +37,59 @@ conda install -c bioconda pilon
 ```
 **Dependencies**: Java 8 or later. Requires significant memory for processing large genomes.
 
+### Combined Installation Guide for BWA v0.7.17 and SAMtools v1.9 (required for the polishing step):
 
-* **Note: Ensure all necessary dependencies are installed before using these tools for optimal operation and accurate results.**
+**Dependencies:**
+* GCC compiler
+* zlib (development libraries)
+* ncurses (development libraries, only for SAMtools)
+* bzip2 (development libraries, only for SAMtools)
+* xz (development libraries, only for SAMtools)
+  
+**Installation Steps:**
+Update Package List:
+```
+sudo apt-get update
+```
+Install Common Dependencies:
+```
+sudo apt-get install gcc zlib1g-dev
+sudo apt-get install libncurses5-dev libbz2-dev liblzma-dev\
+```
+**Download and Install BWA:**
+```
+wget https://github.com/lh3/bwa/archive/refs/tags/v0.7.17.tar.gz
+```
+Extract the Tarball:
+```
+tar -xzf v0.7.17.tar.gz
+```
+Navigate to the BWA directory and compile:
+```
+cd bwa-0.7.17
+make
+```
+**Download and Install ownload SAMtools:**
+
+Download SAMtools from its official website or GitHub repository:
+```
+wget https://github.com/samtools/samtools/archive/refs/tags/1.9.tar.gz
+```
+Extract the Tarball:
+```
+tar -xzf 1.9.tar.gz
+```
+Navigate to the SAMtools directory and compile:
+```
+cd samtools-1.9
+./configure --prefix=/where/to/install
+make
+make install
+```
+* Replace /where/to/install with your desired installation path.
+
+
+* **Note**: Ensure all necessary dependencies are installed before using these tools for optimal operation and accurate results.
 
 
 
