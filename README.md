@@ -8,17 +8,17 @@
 ## 1. Installation Instructions and Dependencies
 This project requires the installation of the following bioinformatics tools: Guppy v6.4.6, bbmap v38.87, Flye v2.9 and Pilon v1.23.
 
-### Guppy v6.4.6
-To install Guppy, follow the instructions provided on the [Oxford Nanopore Technologies website](https://nanoporetech.com). 
-
-**Dependencies**: Compatible operating system, specific versions of Python may be needed. Requires hardware capable of supporting high-throughput sequencing data processing.
-
 ### bbmap v38.87
 bbmap can also be installed via conda:
 ```
 conda install -c bioconda bbmap
 ```
 **Dependencies**: Java 7 or later. Sensitive to Java version and memory allocation.
+
+### Guppy v6.4.6
+To install Guppy, follow the instructions provided on the [Oxford Nanopore Technologies website](https://nanoporetech.com). 
+
+**Dependencies**: Compatible operating system, specific versions of Python may be needed. Requires hardware capable of supporting high-throughput sequencing data processing.
 
 ### Flye v2.9
 Flye can be installed using conda:
@@ -150,5 +150,9 @@ done
 
 ## References
 
-1.
+* Bushnell, Brian. 2014. "BBMap: A Fast, Accurate, Splice-Aware Aligner". United States. https://www.osti.gov/servlets/purl/1241166.
+* Wick RR, Judd LM, Holt KE. Performance of neural network basecalling tools for Oxford Nanopore sequencing https://doi.org/10.1186/s13059-019-1727-y.
+* Kolmogorov M, Yuan J, Lin Y, Pevzner PA. Assembly of long, error-prone reads using repeat graphs https://doi.org/10.1038/s41587-019-0072-8.
+* Walker BJ, Abeel T¤, Shea T, Priest M, Abouelliel A. 2014. Pilon: An Integrated Tool for Comprehensive Microbial Variant Detection and Genome Assembly Improvement. PLoS One 9:112963.
+
 
