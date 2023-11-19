@@ -114,7 +114,7 @@ Run Flye for ONT reads
 flye --nano-raw $ONT_INPUT -o $OUTPUT_DIR -t [number_of_threads]
 ```
 
-* **Note**: In both scripts, you replace the file paths and the number of threads ([number_of_threads]) according to your computing environment and dataset. The -o flag specifies the output directory for the assembled genome.
+* **Note**: In both scripts, replace the file paths and the number of threads ([number_of_threads]) according to your computing environment and dataset. The -o flag specifies the output directory for the assembled genome.
 
 ## 4. Polishing the assemblies
 In this project, iterative polishing of genomic assemblies using Pilon with Illumina QC'd reads was perfomed for five cycles. In each cycle, it:
