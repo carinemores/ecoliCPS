@@ -115,7 +115,7 @@ pilon --genome $ASSEMBLY_PATH --frags $OUTPUT_DIR/alignment_$CYCLE.sorted.bam --
 
 done
 ```
-
+* **Note**: Replace the placeholders (<path_to_assembly_directory>, <path_to_output_directory>, <path_to_illumina_qc_reads_directory>, <number_of_threads>) with the appropriate paths and values for your specific setup.
 
 ## References
 
