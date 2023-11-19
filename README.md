@@ -86,9 +86,9 @@ In this project, the PacBio HiFi reads quality control was performed during the 
 ## 3. Assembling the genomes
 Flye is a *de novo* assembler for long and noisy reads, such as those produced by PacBio and Oxford Nanopore Technologies. It's designed to assemble genomes from scratch with minimal input data. Flye v2.9 offers specific modes for handling different types of long-read data:
 
-* PacBio HiFi Reads: The --pacbio-hifi option is used for high-quality, low-error-rate PacBio reads. This mode is optimized for accuracy, taking advantage of the high fidelity of these reads.
+* PacBio HiFi Reads: The `--pacbio-hifi` option is used for high-quality, low-error-rate PacBio reads. This mode is optimized for accuracy, taking advantage of the high fidelity of these reads.
 
-* ONT Reads: The --nano-raw option is suitable for raw ONT reads. These reads are typically longer but have a higher error rate compared to PacBio HiFi reads. Flye employs algorithms to handle the unique error profiles of ONT data.
+* ONT Reads: The `--nano-raw` option is suitable for raw ONT reads. These reads are typically longer but have a higher error rate compared to PacBio HiFi reads. Flye employs algorithms to handle the unique error profiles of ONT data.
 
 ### Assembling PacBio reads:
 
@@ -97,32 +97,34 @@ Define variables for the input file and output directory:
 PACBIO_INPUT=/path/to/pacbio_hifi_reads.fastq
 OUTPUT_DIR=/path/to/output/directory
 ```
-Run Flye for PacBio HiFi reads
+Run Flye for PacBio HiFi reads:
 ```
 flye --pacbio-hifi $PACBIO_INPUT -o $OUTPUT_DIR -t [number_of_threads]
 ```
 
 ### Assembling ONT reads:
 
-Define variables for the input file and output directory
+Define variables for the input file and output directory:
 ```
 ONT_INPUT=/path/to/ont_reads.fastq
 OUTPUT_DIR=/path/to/output/directory
 ```
-Run Flye for ONT reads
+Run Flye for ONT reads:
 ```
 flye --nano-raw $ONT_INPUT -o $OUTPUT_DIR -t [number_of_threads]
 ```
 
-* **Note**: In both scripts, replace the file paths and the number of threads ([number_of_threads]) according to your computing environment and dataset. The -o flag specifies the output directory for the assembled genome.
+* **Note**: In both scripts, replace the file paths and the number of threads `-t` ([number_of_threads]) according to your computing environment and dataset. The `-o` flag specifies the output directory for the assembled genome.
 
 ## 4. Polishing the assemblies
 In this project, iterative polishing of genomic assemblies using Pilon with Illumina QC'd reads was perfomed for five cycles. In each cycle, it:
+
 * Indexes the assembly with BWA.
 * Aligns the quality-controlled Illumina reads to the assembly using BWA MEM, converting the output to BAM format with Samtools.
 * Sorts and indexes the BAM file using Samtools.
 * Runs Pilon for error correction, specifying input files and output directories. Pilon uses the sorted BAM file and the current assembly to produce a polished version.
 
+Polishing Flye generated assemblies using Pilon and Illumina quality controlled reads:
 ```
 for CYCLE in {0..4}; do
 
