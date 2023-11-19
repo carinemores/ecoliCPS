@@ -84,6 +84,37 @@ In this project, the PacBio HiFi reads quality control was performed during the 
 
 
 ## 3. Assembling the genomes
+Flye is a *de novo* assembler for long and noisy reads, such as those produced by PacBio and Oxford Nanopore Technologies. It's designed to assemble genomes from scratch with minimal input data. Flye v2.9 offers specific modes for handling different types of long-read data:
+
+* PacBio HiFi Reads: The --pacbio-hifi option is used for high-quality, low-error-rate PacBio reads. This mode is optimized for accuracy, taking advantage of the high fidelity of these reads.
+
+* ONT Reads: The --nano-raw option is suitable for raw ONT reads. These reads are typically longer but have a higher error rate compared to PacBio HiFi reads. Flye employs algorithms to handle the unique error profiles of ONT data.
+
+### Assembling PacBio reads:
+
+Define variables for the input file and output directory:
+```
+PACBIO_INPUT=/path/to/pacbio_hifi_reads.fastq
+OUTPUT_DIR=/path/to/output/directory
+```
+Run Flye for PacBio HiFi reads
+```
+flye --pacbio-hifi $PACBIO_INPUT -o $OUTPUT_DIR -t [number_of_threads]
+```
+
+### Assembling ONT reads:
+
+Define variables for the input file and output directory
+```
+ONT_INPUT=/path/to/ont_reads.fastq
+OUTPUT_DIR=/path/to/output/directory
+```
+Run Flye for ONT reads
+```
+flye --nano-raw $ONT_INPUT -o $OUTPUT_DIR -t [number_of_threads]
+```
+
+* **Note**: In both scripts, you replace the file paths and the number of threads ([number_of_threads]) according to your computing environment and dataset. The -o flag specifies the output directory for the assembled genome.
 
 ## 4. Polishing the assemblies
 In this project, iterative polishing of genomic assemblies using Pilon with Illumina QC'd reads was perfomed for five cycles. In each cycle, it:
