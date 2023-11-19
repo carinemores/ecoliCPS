@@ -5,6 +5,9 @@
 `ecoliCPS` is a repository created to provide all scripts used to generate the genomes presented and described in the publication "Complete Genomes of E. coli with diverse K-antigens" by Mores et al. MRA (2023), including including setup, walkthroughs, example commands, and test data.
 
 
+**STILL NEED TO INCLUDE GUPPY EXACT COMMANDS (aske Chris) AND TEST DATA!**
+
+
 ## 1. Installation Instructions and Dependencies
 This project requires the installation of the following bioinformatics tools: Guppy v6.4.6, bbmap v38.87, Flye v2.9 and Pilon v1.23.
 
