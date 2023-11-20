@@ -138,7 +138,7 @@ INPUT_PATH="path/to/raw_fast5_files"
 OUTPUT_PATH="path/to/basecalled_output"
 FLOWCELL_TYPE="FLO-MIN114"  
 KIT_TYPE="SQK-RBK114-24"       
-BARCODE_KITS="SQK-RBK114-24"   
+BARCODE_KITS="SQK-RBK114-24"
 
 #Run Guppy basecaller
 $GUPPY_PATH --input_path $INPUT_PATH \
@@ -151,9 +151,9 @@ $GUPPY_PATH --input_path $INPUT_PATH \
             --trim_primers \
             --enable_trim_barcodes \
             --compress_fastq \
-            --num_callers 8
+            --num_callers <number_of_callers>
 ```
-* **Note**: Please replace `path/to/guppy_basecaller`, `path/to/raw_fast5_files`, and `path/to/basecalled_output` with your actual file paths. The `-x cuda:all` option is intended for systems equipped with NVIDIA CUDA-compatible GPUs and is used to enable GPU acceleration, which can significantly speed up the basecalling process. If the your system does not have NVIDIA GPUs, or if GPU acceleration is not desired, this option can be omitted. The basecaller will then use the CPU, which will be slower compared to GPU processing.
+* **Note**: Please replace `path/to/guppy_basecaller`, `path/to/raw_fast5_files`, and `path/to/basecalled_output` with your actual file paths. Replace `<number_of_callers>` with the number of caller threads suitable for your system. The `-x cuda:all` option is intended for systems equipped with NVIDIA CUDA-compatible GPUs and is used to enable GPU acceleration, which can significantly speed up the basecalling process. If the your system does not have NVIDIA GPUs, or if GPU acceleration is not desired, this option can be omitted. The basecaller will then use the CPU, which will be slower compared to GPU processing. 
 
 
 ### PacBio reads: 
