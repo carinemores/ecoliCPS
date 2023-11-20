@@ -1,11 +1,20 @@
-#! /bin/bash
-#SBATCH --job-name=guppy
-#SBATCH --output=guppy_23CR10_out.log
-#SBATCH --error=guppy_23CR10_error.log
-#SBATCH --nodes=1
-#SBATCH --ntasks=8
-#SBATCH --gpus-per-node=8
-#SBATCH --tmp=1024
-#SBATCH --time=24:00:00
+#Set up Guppy basecaller with generic paths and parameters
+GUPPY_PATH="path/to/guppy_basecaller"
+INPUT_PATH="path/to/raw_fast5_files"
+OUTPUT_PATH="path/to/basecalled_output"
+FLOWCELL_TYPE="FLO-MIN114"  
+KIT_TYPE="SQK-RBK114-24"       
+BARCODE_KITS="SQK-RBK114-24"
 
-/cluster/project/sunagawa/fieldc/ont-guppy/bin/guppy_basecaller --input_path /cluster/work/sunagawa/fieldc/23CR10/fast5 --save_path /cluster/work/sunagawa/fieldc/23CR10/basecall --flowcell FLO-MIN114 --kit SQK-RBK114-24 --barcode_kits SQK-RBK114-24 -x cuda:all --trim_adapters --trim_primers --enable_trim_barcodes --compress_fastq --num_callers 8
+#Run Guppy basecaller
+$GUPPY_PATH --input_path $INPUT_PATH \
+            --save_path $OUTPUT_PATH \
+            --flowcell $FLOWCELL_TYPE \
+            --kit $KIT_TYPE \
+            --barcode_kits $BARCODE_KITS \
+            -x cuda:all \
+            --trim_adapters \
+            --trim_primers \
+            --enable_trim_barcodes \
+            --compress_fastq \
+            --num_callers <number_of_callers>
