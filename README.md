@@ -2,10 +2,7 @@
 
 ## Introduction
 
-`ecoliCPS` is a repository created to provide all scripts used to generate the genomes presented and described in the publication "Complete Genomes of *E. coli* with diverse K-antigens" by Mores *et al.* MRA (2023), including including setup, walkthroughs, example commands, and test data.
-
-
-**STILL NEED TO INCLUDE GUPPY EXACT COMMANDS (aske Chris) AND TEST DATA!**
+`ecoliCPS` is a repository created to provide all scripts used to generate the genomes presented and described in the publication "Complete Genomes of *E. coli* with diverse K-antigens" by Mores *et al.* MRA (2023), including including setup, walkthroughs and example commands.
 
 
 ## 1. Installation Instructions and Dependencies
@@ -133,7 +130,30 @@ done
 * **Note**: Ensure that you replace the paths provided with your actual file paths before running the script. 
 
 ### ONT reads: 
-Guppy
+This script is for running the Guppy basecaller, a tool used for basecalling Oxford Nanopore Technologies (ONT) sequencing data. The script specifies the input path for raw sequencing data, the output path for basecalled data, flowcell and kit types, and other relevant parameters for basecalling. It also includes options for trimming adapters and primers, barcode handling, and output compression.
+```
+#Set up Guppy basecaller with generic paths and parameters
+GUPPY_PATH="path/to/guppy_basecaller"
+INPUT_PATH="path/to/raw_fast5_files"
+OUTPUT_PATH="path/to/basecalled_output"
+FLOWCELL_TYPE="FLO-MIN114"  
+KIT_TYPE="SQK-RBK114-24"       
+BARCODE_KITS="SQK-RBK114-24"   
+
+#Run Guppy basecaller
+$GUPPY_PATH --input_path $INPUT_PATH \
+            --save_path $OUTPUT_PATH \
+            --flowcell $FLOWCELL_TYPE \
+            --kit $KIT_TYPE \
+            --barcode_kits $BARCODE_KITS \
+            -x cuda:all \
+            --trim_adapters \
+            --trim_primers \
+            --enable_trim_barcodes \
+            --compress_fastq \
+            --num_callers 8
+```
+* **Note**: Please replace `path/to/guppy_basecaller`, `path/to/raw_fast5_files`, and `path/to/basecalled_output` with your actual file paths. The `-x cuda:all` option is intended for systems equipped with NVIDIA CUDA-compatible GPUs and is used to enable GPU acceleration, which can significantly speed up the basecalling process. If the your system does not have NVIDIA GPUs, or if GPU acceleration is not desired, this option can be omitted. The basecaller will then use the CPU, which will be slower compared to GPU processing.
 
 
 ### PacBio reads: 
