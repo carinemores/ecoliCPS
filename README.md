@@ -127,7 +127,7 @@ for r1 in ${raw_data_dir}/*R1*fastq.gz; do
 
 done
 ```
-* **Note**: Ensure that you replace the paths provided with your actual file paths before running the script. 
+* **NOTE**: Ensure that you replace the paths provided with your actual file paths before running the script. 
 
 ### ONT reads: 
 This script is for running the Guppy basecaller, a tool used for basecalling Oxford Nanopore Technologies (ONT) sequencing data. The script specifies the input path for raw sequencing data, the output path for basecalled data, flowcell and kit types, and other relevant parameters for basecalling. It also includes options for trimming adapters and primers, barcode handling, and output compression.
@@ -153,7 +153,7 @@ $GUPPY_PATH --input_path $INPUT_PATH \
             --compress_fastq \
             --num_callers <number_of_callers>
 ```
-* **Notes**:
+* **NOTES**:
   * Please replace `path/to/guppy_basecaller`, `path/to/raw_fast5_files`, and `path/to/basecalled_output` with your actual file paths.
   * Replace `<number_of_callers>` with the number of caller threads suitable for your system.
   * The `-x cuda:all` option is intended for systems equipped with NVIDIA CUDA-compatible GPUs and is used to enable GPU acceleration, which can significantly speed up the basecalling process. If the your system does not have NVIDIA GPUs, or if GPU acceleration is not desired, this option can be omitted. The basecaller will then use the CPU, which will be slower compared to GPU processing. 
@@ -195,7 +195,7 @@ Run Flye for ONT reads:
 flye --nano-raw $ONT_INPUT -o $OUTPUT_DIR -t <number_of_threads>
 ```
 
-* **Note**: In both scripts, ensure that you replace the paths provided with your actual file paths before running the script. Also, update `<number_of_threads>` with the appropriate value for your system. The `-o` flag specifies the output directory for the assembled genome.
+* **NOTE**: In both scripts, ensure that you replace the paths provided with your actual file paths before running the script. Also, update `<number_of_threads>` with the appropriate value for your system. The `-o` flag specifies the output directory for the assembled genome.
 
 ## 4. Polishing the assemblies
 To polish the presented genomes, iterative polishing was perfomed for five cycles. In each cycle, it:
@@ -230,7 +230,7 @@ for CYCLE in {0..4}; do
 done
 
 ```
-* **Note**: Replace the file paths according to your computing environment and dataset. The `<number_of_threads>` placeholder should be replaced with the desired number of threads for parallel processing.
+* **NOTE**: Replace the file paths according to your computing environment and dataset. The `<number_of_threads>` placeholder should be replaced with the desired number of threads for parallel processing.
 
 
 ## References
