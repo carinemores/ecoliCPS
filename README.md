@@ -71,7 +71,7 @@ Navigate to the BWA directory and compile:
 cd bwa-0.7.17
 make
 ```
-**Download and Install ownload SAMtools:**
+**Download and Install SAMtools:**
 
 Download SAMtools from its official website or GitHub repository:
 ```
