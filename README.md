@@ -201,6 +201,7 @@ for CYCLE in {0..4}; do
 
     #Run Pilon for polishing
     pilon --genome $ASSEMBLY_PATH --frags $OUTPUT_DIR/alignment_$CYCLE.sorted.bam --output contigs_$(($CYCLE + 1)) --outdir $OUTPUT_DIR --changes
+
 done
 
 ```
