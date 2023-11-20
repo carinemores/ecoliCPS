@@ -153,7 +153,10 @@ $GUPPY_PATH --input_path $INPUT_PATH \
             --compress_fastq \
             --num_callers <number_of_callers>
 ```
-* **Note**: Please replace `path/to/guppy_basecaller`, `path/to/raw_fast5_files`, and `path/to/basecalled_output` with your actual file paths. Replace `<number_of_callers>` with the number of caller threads suitable for your system. The `-x cuda:all` option is intended for systems equipped with NVIDIA CUDA-compatible GPUs and is used to enable GPU acceleration, which can significantly speed up the basecalling process. If the your system does not have NVIDIA GPUs, or if GPU acceleration is not desired, this option can be omitted. The basecaller will then use the CPU, which will be slower compared to GPU processing. 
+* **Notes**:
+  * Please replace `path/to/guppy_basecaller`, `path/to/raw_fast5_files`, and `path/to/basecalled_output` with your actual file paths.
+  * Replace `<number_of_callers>` with the number of caller threads suitable for your system.
+  * The `-x cuda:all` option is intended for systems equipped with NVIDIA CUDA-compatible GPUs and is used to enable GPU acceleration, which can significantly speed up the basecalling process. If the your system does not have NVIDIA GPUs, or if GPU acceleration is not desired, this option can be omitted. The basecaller will then use the CPU, which will be slower compared to GPU processing. 
 
 
 ### PacBio reads: 
