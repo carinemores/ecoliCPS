@@ -115,19 +115,22 @@ Loop through each pair of Illumina read files:
 ```
 for r1 in ${raw_data_dir}/*R1*fastq.gz; do
     r2=${r1/R1/R2}
+    base_name=$(basename $r1 .fastq.gz)
 
-    #Adapter trimming
-    bbduk.sh in1=$r1 in2=$r2 out1=${r1%.fastq.gz}_trimmed.1.fq.gz out2=${r2%.fastq.gz}_trimmed.2.fq.gz ref=$adapter_ref ktrim=r k=23 mink=11 hdist=1 stats=${r1%.fastq.gz}_adapter.stats
+    # Adapter trimming
+    bbduk.sh in1=$r1 in2=$r2 out1=${processed_data_dir}/${base_name}_trimmed.1.fq.gz out2=${processed_data_dir}/${base_name}_trimmed.2.fq.gz ref=$adapter_ref ktrim=r k=23 mink=11 hdist=1 stats=${processed_data_dir}/${base_name}_adapter.stats
 
-    #PhiX removal
-    bbduk.sh in1=${r1%.fastq.gz}_trimmed.1.fq.gz in2=${r2%.fastq.gz}_trimmed.2.fq.gz out1=${r1%.fastq.gz}_phix_removed.1.fq.gz out2=${r2%.fastq.gz}_phix_removed.2.fq.gz ref=$phix_ref k=31 hdist=1 stats=${r1%.fastq.gz}_phix.stats
+    # PhiX removal
+    bbduk.sh in1=${processed_data_dir}/${base_name}_trimmed.1.fq.gz in2=${processed_data_dir}/${base_name}_trimmed.2.fq.gz out1=${processed_data_dir}/${base_name}_phix_removed.1.fq.gz out2=${processed_data_dir}/${base_name}_phix_removed.2.fq.gz ref=$phix_ref k=31 hdist=1 stats=${processed_data_dir}/${base_name}_phix.stats
 
-    #Quality trimming and filtering
-    bbduk.sh in1=${r1%.fastq.gz}_phix_removed.1.fq.gz in2=${r2%.fastq.gz}_phix_removed.2.fq.gz out1=${r1%.fastq.gz}_final.1.fq.gz out2=${r2%.fastq.gz}_final.2.fq.gz trimq=14 qtrim=r minlength=45 maq=20 maxns=0 stats=${r1%.fastq.gz}_final.stats
+    # Quality trimming and filtering
+    bbduk.sh in1=${processed_data_dir}/${base_name}_phix_removed.1.fq.gz in2=${processed_data_dir}/${base_name}_phix_removed.2.fq.gz out1=${processed_data_dir}/${base_name}_final.1.fq.gz out2=${processed_data_dir}/${base_name}_final.2.fq.gz trimq=14 qtrim=r minlength=45 maq=20 maxns=0 stats=${processed_data_dir}/${base_name}_final.stats
 
 done
 ```
-* **NOTE**: Ensure that you replace the paths provided with your actual file paths before running the script. 
+* **NOTES**:
+  * Ensure that you replace the paths provided with your actual file paths before running the script.
+  * The `basename` command is used to extract the base name of the file (i.e., file name without its path and extension) and it is utilized to generate consistent and recognizable names for the output files. This ensures that the output files have predictable names, facilitating their use in subsequent steps of the workflow.
 
 ### ONT reads: 
 This script is for running the Guppy basecaller, a tool used for basecalling Oxford Nanopore Technologies (ONT) sequencing data. The script specifies the input path for raw sequencing data, the output path for basecalled data, flowcell and kit types, and other relevant parameters for basecalling. It also includes options for trimming adapters and primers, barcode handling, and output compression.
@@ -208,29 +211,36 @@ To polish the presented genomes, iterative polishing was perfomed for five cycle
 Polishing Flye generated assemblies using Pilon:
 ```
 for CYCLE in {0..4}; do
-    
+
     #Define the path for assembly file and output directory
     ASSEMBLY_PATH="path/to/your/assembly_directory/contigs_$CYCLE.fasta"
     OUTPUT_DIR="path/to/output_directory"
     ILLUMINA_READS_DIR="path/to/your/illumina_qc_reads_directory"
 
-    #Index the assembly with BWA
+    # Index the assembly with BWA
     bwa index $ASSEMBLY_PATH
 
-    #Align QC'd reads to the assembly and convert to BAM
-    bwa mem -t <number_of_threads> $ASSEMBLY_PATH $ILLUMINA_READS_DIR/read1.fq.gz $ILLUMINA_READS_DIR/read2.fq.gz | samtools view -bS - > $OUTPUT_DIR/alignment_$CYCLE.bam
+    # Align QC'd reads to the assembly and convert to BAM
+    for qc_read in ${ILLUMINA_READS_DIR}/*_final.1.fq.gz; do
+        r1=$qc_read
+        r2=${qc_read%.1.fq.gz}.2.fq.gz
+        base_name=$(basename $qc_read _final.1.fq.gz)
 
-    #Sort and index the BAM file
-    samtools sort $OUTPUT_DIR/alignment_$CYCLE.bam > $OUTPUT_DIR/alignment_$CYCLE.sorted.bam
-    samtools index $OUTPUT_DIR/alignment_$CYCLE.sorted.bam
+        bwa mem -t <number_of_threads> $ASSEMBLY_PATH $r1 $r2 | samtools view -bS - > $OUTPUT_DIR/${base_name}_alignment_$CYCLE.bam
 
-    #Run Pilon for polishing
-    pilon --genome $ASSEMBLY_PATH --frags $OUTPUT_DIR/alignment_$CYCLE.sorted.bam --output contigs_$(($CYCLE + 1)) --outdir $OUTPUT_DIR --changes
+        # Sort and index the BAM file
+        samtools sort $OUTPUT_DIR/${base_name}_alignment_$CYCLE.bam > $OUTPUT_DIR/${base_name}_alignment_$CYCLE.sorted.bam
+        samtools index $OUTPUT_DIR/${base_name}_alignment_$CYCLE.sorted.bam
 
+        # Run Pilon for polishing
+        pilon --genome $ASSEMBLY_PATH --frags $OUTPUT_DIR/${base_name}_alignment_$CYCLE.sorted.bam --output contigs_$(($CYCLE + 1))_${base_name} --outdir $OUTPUT_DIR --changes
+    done
 done
-
 ```
-* **NOTE**: Replace the file paths according to your computing environment and dataset. The `<number_of_threads>` placeholder should be replaced with the desired number of threads for parallel processing.
+* **NOTES**:
+  * Replace the file paths according to your computing environment and dataset.
+  * The `<number_of_threads>` placeholder should be replaced with the desired number of threads for parallel processing.
+  * The `basename` command is used to extract the base name of the file (i.e., file name without its path and extension) and it is utilized to generate consistent and recognizable names for the output files. 
 
 
 ## References
