@@ -10,7 +10,7 @@
 
 ## 1. Installation Instructions and Dependencies
 The followig bioinformatic tools were required to generated the presented genomes: Guppy v6.4.6, bbmap v38.87, Flye v2.9, Pilon v1.23, BWA v0.7.17 and SAMtools v1.9.
-Below you can find instructions on how to download each of them and its dependencies.
+Below you can find instructions on how to download each tool and its dependencies.
 
 ### bbmap v38.87
 bbmap can be installed via conda:
