@@ -129,7 +129,7 @@ for r1 in ${raw_data_dir}/*R1*fastq.gz; do
 done
 ```
 * **NOTES**:
-  * Ensure that you replace the paths provided with your actual file paths before running the script.
+  * Ensure that you replace the paths provided (e.g. `/path/to/raw/Illumina/data`) with your actual file paths before running the script.
   * The `basename` command is used to extract the base name of the file (i.e., file name without its path and extension) and it is utilized to generate consistent and recognizable names for the output files. This ensures that the output files have predictable names, facilitating their use in subsequent steps of the workflow.
 
 ### ONT reads: 
