@@ -85,7 +85,7 @@ cd samtools-1.9
 make
 make install
 ```
-* Replace /where/to/install with your desired installation path.
+* Replace `/where/to/install` with your desired installation path.
 
 
 * **NOTE**: Ensure all necessary dependencies are installed before using these tools for optimal operation and accurate results.
