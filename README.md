@@ -129,6 +129,7 @@ for r1 in ${raw_data_dir}/*R1*fastq.gz; do
 
 done
 ```
+* **Note**: Ensure that you replace the paths provided with your actual file paths before running the script. 
 
 ### ONT reads: 
 Guppy
@@ -150,27 +151,27 @@ Flye v2.9 offers specific modes for handling different types of long-read data:
 
 Define variables for the input file and output directory:
 ```
-PACBIO_INPUT=/path/to/pacbio_hifi_reads.fastq
-OUTPUT_DIR=/path/to/output/directory
+PACBIO_INPUT="/path/to/pacbio_hifi_reads.fastq"
+OUTPUT_DIR="/path/to/output/directory"
 ```
 Run Flye for PacBio HiFi reads:
 ```
-flye --pacbio-hifi $PACBIO_INPUT -o $OUTPUT_DIR -t [number_of_threads]
+flye --pacbio-hifi $PACBIO_INPUT -o $OUTPUT_DIR -t <number_of_threads>
 ```
 
 ### Assembling ONT reads:
 
 Define variables for the input file and output directory:
 ```
-ONT_INPUT=/path/to/ont_reads.fastq
-OUTPUT_DIR=/path/to/output/directory
+ONT_INPUT="/path/to/ont_reads.fastq"
+OUTPUT_DIR="/path/to/output/directory"
 ```
 Run Flye for ONT reads:
 ```
-flye --nano-raw $ONT_INPUT -o $OUTPUT_DIR -t [number_of_threads]
+flye --nano-raw $ONT_INPUT -o $OUTPUT_DIR -t <number_of_threads>
 ```
 
-* **Note**: In both scripts, replace the file paths and the number of threads `-t` ([number_of_threads]) according to your computing environment and dataset. The `-o` flag specifies the output directory for the assembled genome.
+* **Note**: In both scripts, ensure that you replace the paths provided with your actual file paths before running the script. Also, update `<number_of_threads>` with the appropriate value for your system. The `-o` flag specifies the output directory for the assembled genome.
 
 ## 4. Polishing the assemblies
 To polish the presented genomes, iterative polishing was perfomed for five cycles. In each cycle, it:
@@ -205,7 +206,7 @@ for CYCLE in {0..4}; do
 done
 
 ```
-* **Note**: Replace replace the file paths according to your computing environment and dataset. The `<number_of_threads>` placeholder should be replaced with the desired number of threads for parallel processing.
+* **Note**: Replace the file paths according to your computing environment and dataset. The `<number_of_threads>` placeholder should be replaced with the desired number of threads for parallel processing.
 
 
 ## References
