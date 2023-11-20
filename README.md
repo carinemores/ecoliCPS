@@ -237,6 +237,7 @@ for CYCLE in {0..4}; do
 
         # Run Pilon for polishing
         pilon --genome $ASSEMBLY_PATH --frags $OUTPUT_DIR/${base_name}_alignment_$CYCLE.sorted.bam --output contigs_$(($CYCLE + 1))_${base_name} --outdir $OUTPUT_DIR --changes
+
     done
 done
 ```
