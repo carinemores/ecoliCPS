@@ -85,10 +85,10 @@ cd samtools-1.9
 make
 make install
 ```
-* Replace `/where/to/install` with your desired installation path.
 
-
-* **NOTE**: Ensure all necessary dependencies are installed before using these tools for optimal operation and accurate results.
+* **NOTES**:
+  * Replace `/where/to/install` with your desired installation path.
+  * Ensure all necessary dependencies are installed before using these tools for optimal operation and accurate results.
 
 
 
@@ -198,7 +198,10 @@ Run Flye for ONT reads:
 flye --nano-raw $ONT_INPUT -o $OUTPUT_DIR -t <number_of_threads>
 ```
 
-* **NOTE**: In both scripts, ensure that you replace the paths provided with your actual file paths before running the script. Also, update `<number_of_threads>` with the appropriate value for your system. The `-o` flag specifies the output directory for the assembled genome.
+* **NOTES**:
+  * In both scripts, ensure that you replace the paths provided with your actual file paths.
+  * Please replace `<number_of_threads>` with the appropriate value for your system.
+  * The `-o` flag specifies the output directory for the assembled genome.
 
 ## 4. Polishing the assemblies
 To polish the presented genomes, iterative polishing was perfomed for five cycles. In each cycle, it:
