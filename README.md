@@ -48,12 +48,12 @@ conda install -c bioconda pilon
 
 Update Package List:
 ```
-sudo apt-get update
+apt-get update
 ```
 Install Common Dependencies:
 ```
-sudo apt-get install gcc zlib1g-dev
-sudo apt-get install libncurses5-dev libbz2-dev liblzma-dev\
+apt-get install gcc zlib1g-dev
+apt-get install libncurses5-dev libbz2-dev liblzma-dev\
 ```
 **Download and Install BWA:**
 ```
