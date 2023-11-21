@@ -6,112 +6,38 @@
 
 
 ## 1. Installation Instructions and Dependencies
-The followig bioinformatic tools were required to generated the presented genomes: Guppy v6.4.6, bbmap v38.87, Flye v2.9, Pilon v1.23, BWA v0.7.17 and SAMtools v1.9.
-Below you can find instructions on how to download each tool and its dependencies.
 
-### bbmap v38.87
-bbmap can be installed via conda:
-```
-conda install -c bioconda bbmap
-```
-**Dependencies**: Java 7 or later. Sensitive to Java version and memory allocation.
+All tools can be installed via conda after enabling [bioconda channels](https://bioconda.github.io/)
 
-### Guppy v6.4.6
-To install Guppy, follow the instructions provided on the [Oxford Nanopore Technologies website](https://nanoporetech.com). 
-
-**Dependencies**: Compatible operating system, specific versions of Python may be needed. Requires hardware capable of supporting high-throughput sequencing data processing.
-
-### Flye v2.9
-Flye can be installed using conda:
-```bash
-conda install -c bioconda flye
 ```
-**Dependencies**: Python (version 2.7 or 3.5 and later) and a standard C++ compiler. Performance varies based on Python version and C++ compiler.
-
-### Pilon v1.23
-Pilon can also be installed using conda:
+conda create -n ecoliCPS bbmap=38.87 python=3.10 guppy=6.4.6 flye=2.9 pilon=1.23 bwa=0.7.17 samtools=1.9
 ```
-conda install -c bioconda pilon
-```
-**Dependencies**: Java 8 or later. Requires significant memory for processing large genomes.
-
-### Combined Installation Guide for BWA v0.7.17 and SAMtools v1.9 (required for the polishing step):
-
-**Dependencies:**
-* GCC compiler
-* zlib (development libraries)
-* ncurses (development libraries, only for SAMtools)
-* bzip2 (development libraries, only for SAMtools)
-* xz (development libraries, only for SAMtools)
-  
-**Installation Steps:**
-
-Update Package List:
-```
-apt-get update
-```
-Install Common Dependencies:
-```
-apt-get install gcc zlib1g-dev
-apt-get install libncurses5-dev libbz2-dev liblzma-dev\
-```
-**Download and Install BWA:**
-```
-wget https://github.com/lh3/bwa/archive/refs/tags/v0.7.17.tar.gz
-```
-Extract the Tarball:
-```
-tar -xzf v0.7.17.tar.gz
-```
-Navigate to the BWA directory and compile:
-```
-cd bwa-0.7.17
-make
-```
-**Download and Install SAMtools:**
-
-Download SAMtools from its official website or GitHub repository:
-```
-wget https://github.com/samtools/samtools/archive/refs/tags/1.9.tar.gz
-```
-Extract the Tarball:
-```
-tar -xzf 1.9.tar.gz
-```
-Navigate to the SAMtools directory and compile:
-```
-cd samtools-1.9
-./configure --prefix=/where/to/install
-make
-make install
-```
-
-* **NOTES**:
-  * Replace `/where/to/install` with your desired installation path.
-  * Ensure all necessary dependencies are installed before using these tools for optimal operation and accurate results.
-
-
 
 ## 2. Processing the input data
 
 ### Illumina reads: 
-Illumina reads were subjected to quality control and trimming using BBMap's BBDuk tool, streamlined into three key steps:
+Illumina reads were were quality controlled using BBDuk:
 
 * **Adapter Trimming**: Removal of adapter sequences with specific parameters, including a kmer length of 23 and a minimum kmer length of 11.
-* **PhiX Contamination Removal**: Elimination of PhiX control DNA using a kmer length of 31.
-* **Quality Trimming and Filtering**: Trimming of low-quality bases and filtering out reads below a 45-base length threshold, with a minimum average quality of 20 and no ambiguous bases ('N's).
+* **PhiX Contamination Removal**: Removal of PhiX control sequences using a kmer length of 31.
+* **Quality Trimming and Filtering**: Trimming of low-quality bases and filtering out reads below a 45-base length threshold, with a minimum average quality of 20. Remaining sequences are not allowed to contain ambiguous bases ('N's).
 
 Define directories for raw and processed data: 
+
 ```
 raw_data_dir="/path/to/raw/Illumina/data"
 processed_data_dir="/path/to/processed/Illumina/data"
 ```
+
 Define reference files for adapters and PhiX (comes with BBmap):
+
 ```
 adapter_ref="/path/to/adapter/reference.fa"
 phix_ref="/path/to/phix/reference.fa"
 ```
+
 Loop through each pair of Illumina read files:
+
 ```
 for r1 in ${raw_data_dir}/*R1*fastq.gz; do
     r2=${r1/R1/R2}
@@ -128,6 +54,7 @@ for r1 in ${raw_data_dir}/*R1*fastq.gz; do
 
 done
 ```
+
 * **NOTES**:
   * Ensure that you replace the paths provided (e.g. `/path/to/raw/Illumina/data`) with your actual file paths before running the script.
   * The `basename` command is used to extract the base name of the file (i.e., file name without its path and extension) and it is utilized to generate consistent and recognizable names for the output files. This ensures that the output files have predictable names, facilitating their use in subsequent steps of the workflow.
@@ -163,7 +90,7 @@ $GUPPY_PATH --input_path $INPUT_PATH \
 
 
 ### PacBio reads: 
-PacBio HiFi reads quality control was performed during the run using the Control SW Version 11.0.0.144466, rendering Q20+ reads. No further QC was performed.
+PacBio HiFi reads quality control was performed during the run using the Control SW Version `11.0.0.144466`, rendering Q20+ reads. No further QC was performed.
 
 
 ## 3. Assembling the genomes
@@ -204,14 +131,15 @@ flye --nano-raw $ONT_INPUT -o $OUTPUT_DIR -t <number_of_threads>
   * The `-o` flag specifies the output directory for the assembled genome.
 
 ## 4. Polishing the assemblies
-To polish the presented genomes, iterative polishing was perfomed for five cycles. In each cycle, it:
+Five cycles of iterative polishing was performed on the assembled genomes. In each cycle, it:
 
-* Indexes the assembly with BWA.
-* Aligns the quality controlled Illumina reads to the assembly using BWA MEM, converting the output to BAM format with Samtools.
-* Sorts and indexes the BAM file using Samtools.
-* Runs Pilon for error correction, specifying input files and output directories. Pilon uses the sorted BAM file and the current assembly to produce a polished version.
+* Indexes the assembly with `BWA`.
+* Aligns the quality controlled Illumina reads to the assembly using `BWA MEM`, converting the output to `BAM` format with Samtools.
+* Sorts and indexes the `BAM` file using `SAMtools`.
+* Runs `Pilon` for error correction, specifying input files and output directories. Pilon uses the sorted `BAM` file and the current assembly to produce a polished version.
 
-Polishing Flye generated assemblies using Pilon:
+Polishing `Flye` generated assemblies using `Pilon`:
+
 ```
 for CYCLE in {0..4}; do
 
@@ -241,9 +169,10 @@ for CYCLE in {0..4}; do
     done
 done
 ```
+
 * **NOTES**:
   * Replace the file paths according to your computing environment and dataset.
-  * The `<number_of_threads>` placeholder should be replaced with the desired number of threads for parallel processing.
+  * The `<number_of_threads>` placeholder should be replaced with the number of threads for parallel processing.
   * The `basename` command is used to extract the base name of the file (i.e., file name without its path and extension) and it is utilized to generate consistent and recognizable names for the output files. 
 
 
